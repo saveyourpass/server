@@ -8,6 +8,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import pl.edu.uj.saveyourpass.api.JAXActivator;
+import pl.edu.uj.saveyourpass.api.Version;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -16,20 +18,20 @@ import javax.ws.rs.core.Response;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class HelloTest {
+public class VersionTest {
 
     @Deployment
     public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addClass(JAXActivator.class).addClass(Hello.class);
+        return ShrinkWrap.create(WebArchive.class).addClass(JAXActivator.class).addClass(Version.class);
     }
 
     @Test
     @RunAsClient
-    public void shouldBeAbleTo(@ArquillianResteasyResource("rest/json") final WebTarget webTarget) {
+    public void shouldBeAbleTo(@ArquillianResteasyResource("api") final WebTarget webTarget) {
         final Response response = webTarget
-                .path("/")
-                .request(MediaType.APPLICATION_JSON)
+                .path("version")
+                .request(MediaType.TEXT_PLAIN)
                 .get();
-        assertEquals("{\"status\":\"hello\"}", response.readEntity(String.class));
+        assertEquals("0.0.1", response.readEntity(String.class));
     }
 }
