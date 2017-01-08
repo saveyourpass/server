@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.wildfly.swarm.Swarm;
+import org.wildfly.swarm.cdi.CDIFraction;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 import org.wildfly.swarm.swagger.SwaggerArchive;
 import pl.edu.uj.saveyourpass.bo.User;
@@ -11,8 +12,11 @@ import pl.edu.uj.saveyourpass.bo.User;
 import javax.enterprise.inject.Produces;
 
 public class Main {
+    private SessionFactory sessionFactory;
+
     public static void main(String[] args) throws Exception {
         Swarm swarm = new Swarm();
+        swarm.fraction(new CDIFraction());
 
         SwaggerArchive archive = ShrinkWrap.create(SwaggerArchive.class, "swagger.war");
         archive.setVersion("0.0.1"); // our API version
@@ -26,9 +30,12 @@ public class Main {
 
     @Produces
     public SessionFactory getSessionFactory() {
-        return new Configuration()
-                .configure()
-                .addAnnotatedClass(User.class)
-                .buildSessionFactory();
+        if (sessionFactory == null) {
+            sessionFactory = new Configuration()
+                    .configure()
+                    .addAnnotatedClass(User.class)
+                    .buildSessionFactory();
+        }
+        return sessionFactory;
     }
 }

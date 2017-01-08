@@ -1,5 +1,9 @@
 package pl.edu.uj.saveyourpass.bo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.mindrot.jbcrypt.BCrypt;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,9 +13,10 @@ public class User {
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     public User() {}
@@ -33,12 +38,14 @@ public class User {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
-        this.password = password;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     @Override
