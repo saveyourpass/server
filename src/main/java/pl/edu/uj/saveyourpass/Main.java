@@ -1,10 +1,6 @@
 package pl.edu.uj.saveyourpass;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import pl.edu.uj.saveyourpass.bo.User;
-
-import javax.enterprise.inject.Produces;
 
 public class Main {
     private SessionFactory sessionFactory;
@@ -21,15 +17,4 @@ public class Main {
 //        deployment.addAllDependencies();
 //        swarm.start().deploy(deployment);
 //    }
-
-    @Produces
-    public SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            sessionFactory = new Configuration()
-                    .configure()
-                    .addAnnotatedClass(User.class)
-                    .buildSessionFactory();
-        }
-        return sessionFactory;
-    }
 }

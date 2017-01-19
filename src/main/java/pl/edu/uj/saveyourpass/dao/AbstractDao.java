@@ -2,12 +2,18 @@ package pl.edu.uj.saveyourpass.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
-import javax.inject.Inject;
+import org.hibernate.cfg.Configuration;
+import pl.edu.uj.saveyourpass.bo.User;
 
 public abstract class AbstractDao {
-    @Inject
     private SessionFactory sessionFactory;
+
+    public AbstractDao() {
+        sessionFactory = new Configuration()
+                .configure()
+                .addAnnotatedClass(User.class)
+                .buildSessionFactory();
+    }
 
     protected Session getSession() {
         return sessionFactory.openSession();
