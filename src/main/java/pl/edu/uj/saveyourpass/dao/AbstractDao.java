@@ -3,6 +3,7 @@ package pl.edu.uj.saveyourpass.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import pl.edu.uj.saveyourpass.bo.AuthToken;
 import pl.edu.uj.saveyourpass.bo.User;
 
 public abstract class AbstractDao {
@@ -12,6 +13,7 @@ public abstract class AbstractDao {
         sessionFactory = new Configuration()
                 .configure()
                 .addAnnotatedClass(User.class)
+                .addAnnotatedClass(AuthToken.class)
                 .buildSessionFactory();
     }
 

@@ -5,6 +5,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +20,10 @@ public class User {
     @Column(name = "password")
     @JsonIgnore
     private String password;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<AuthToken> authTokens = new HashSet<>();
+
 
     public User() {}
 
@@ -55,5 +61,15 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    @JsonIgnore
+    public Set<AuthToken> getAuthTokens() {
+        return authTokens;
+    }
+
+    @JsonIgnore
+    public void setAuthTokens(Set<AuthToken> authTokens) {
+        this.authTokens = authTokens;
     }
 }
