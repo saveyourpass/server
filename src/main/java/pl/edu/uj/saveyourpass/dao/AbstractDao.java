@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import pl.edu.uj.saveyourpass.bo.AuthToken;
+import pl.edu.uj.saveyourpass.bo.EncryptedPassword;
+import pl.edu.uj.saveyourpass.bo.Password;
 import pl.edu.uj.saveyourpass.bo.User;
 
 public abstract class AbstractDao {
@@ -14,6 +16,8 @@ public abstract class AbstractDao {
                 .configure()
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(AuthToken.class)
+                .addAnnotatedClass(Password.class)
+                .addAnnotatedClass(EncryptedPassword.class)
                 .buildSessionFactory();
     }
 

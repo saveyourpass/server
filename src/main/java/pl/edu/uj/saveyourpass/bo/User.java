@@ -23,7 +23,8 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<AuthToken> authTokens = new HashSet<>();
-
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<Password> passwords = new HashSet<>();
 
     public User() {}
 
@@ -71,5 +72,13 @@ public class User {
     @JsonIgnore
     public void setAuthTokens(Set<AuthToken> authTokens) {
         this.authTokens = authTokens;
+    }
+
+    public Set<Password> getPasswords() {
+        return passwords;
+    }
+
+    public void setPasswords(Set<Password> passwords) {
+        this.passwords = passwords;
     }
 }
