@@ -25,6 +25,8 @@ public class User {
     private Set<AuthToken> authTokens = new HashSet<>();
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Password> passwords = new HashSet<>();
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
+    private Set<Key> keys = new HashSet<>();
 
     public User() {}
 
@@ -80,5 +82,13 @@ public class User {
 
     public void setPasswords(Set<Password> passwords) {
         this.passwords = passwords;
+    }
+
+    public Set<Key> getKeys() {
+        return keys;
+    }
+
+    public void setKeys(Set<Key> keys) {
+        this.keys = keys;
     }
 }
