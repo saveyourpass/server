@@ -1,5 +1,6 @@
 package pl.edu.uj.saveyourpass;
 
+import pl.edu.uj.saveyourpass.bo.User;
 import pl.edu.uj.saveyourpass.dao.AuthTokenDao;
 
 import javax.inject.Inject;
@@ -18,8 +19,10 @@ public class SecurityFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String token = requestContext.getHeaderString("X-AUTH");
-        if (token == null || !authTokenDao.isValid(token)) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+        if (token != null && authTokenDao.isValid(token)) {
+            User user = authTokenDao.getUserFor(token);
+            requestContext.setProperty("user", user); // TODO do not work in resteasy
         }
+        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }
 }

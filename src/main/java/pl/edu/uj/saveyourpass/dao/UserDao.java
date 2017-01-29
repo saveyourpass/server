@@ -28,4 +28,15 @@ public class UserDao extends AbstractDao {
         session.close();
         return opt;
     }
+
+    public User getByName(String username) {
+        Session session = getSession();
+        Transaction t = session.beginTransaction();
+        Query<User> query = session.createQuery("from User where username = :username", User.class)
+                .setParameter("username", username);
+        User user = query.getSingleResult();
+        t.commit();
+        session.close();
+        return user;
+    }
 }

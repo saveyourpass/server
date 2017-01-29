@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import pl.edu.uj.saveyourpass.bo.AuthToken;
+import pl.edu.uj.saveyourpass.bo.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.LocalDateTime;
@@ -36,5 +37,16 @@ public class AuthTokenDao extends AbstractDao {
 
     public boolean hasExpired(AuthToken authToken) {
         return authToken.getExpires().isBefore(LocalDateTime.now());
+    }
+
+    public User getUserFor(String token) {
+        Session session = getSession();
+        Transaction t = session.beginTransaction();
+        Query<AuthToken> query = session.createQuery("from AuthToken where token = :token", AuthToken.class)
+                .setParameter("token", token);
+        User user = query.getSingleResult().getUser();
+        t.commit();
+        session.close();
+        return user;
     }
 }

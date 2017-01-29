@@ -1,6 +1,10 @@
 package pl.edu.uj.saveyourpass.bo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "keys")
@@ -13,15 +17,15 @@ public class Key {
     private String name;
     @Column(name = "data")
     private String data;
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User owner;
+    @JsonIgnore
+    @OneToMany(mappedBy = "key", fetch = FetchType.EAGER)
+    private Set<EncryptedPassword> encryptedPasswords;
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -40,11 +44,23 @@ public class Key {
         this.data = data;
     }
 
+    @JsonProperty
     public User getOwner() {
         return owner;
     }
 
+    @JsonIgnore
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    @JsonIgnore
+    public Set<EncryptedPassword> getEncryptedPasswords() {
+        return encryptedPasswords;
+    }
+
+    @JsonIgnore
+    public void setEncryptedPasswords(Set<EncryptedPassword> passwords) {
+        this.encryptedPasswords = passwords;
     }
 }

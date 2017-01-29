@@ -9,8 +9,8 @@ public class EncryptedPassword {
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
-    @Column(name = "fingerprint")
-    private String fingerprint;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Key key;
     @Column(name = "data")
     private String data;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -24,12 +24,12 @@ public class EncryptedPassword {
         this.id = id;
     }
 
-    public String getFingerprint() {
-        return fingerprint;
+    public Key getKey() {
+        return key;
     }
 
-    public void setFingerprint(String fingerprint) {
-        this.fingerprint = fingerprint;
+    public void setKey(Key key) {
+        this.key = key;
     }
 
     public String getData() {

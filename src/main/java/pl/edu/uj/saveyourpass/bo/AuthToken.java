@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Entity
-@Table(name = "auth_token")
+@Table(name = "auth_tokens")
 public class AuthToken {
     private static final SecureRandom random = new SecureRandom();
 

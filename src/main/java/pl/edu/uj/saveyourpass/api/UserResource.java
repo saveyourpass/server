@@ -19,6 +19,8 @@ public class UserResource {
     private UserDao userDao;
     @Inject
     private AuthTokenDao authTokenDao;
+    @Inject
+    private KeyResource keyResource;
 
     @POST
     @Path("/new")
@@ -57,5 +59,11 @@ public class UserResource {
             }
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @Path("{username}/keys")
+    public KeyResource keys(@PathParam("username") String username) {
+        keyResource.setUsername(username);
+        return keyResource;
     }
 }
