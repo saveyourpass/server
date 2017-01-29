@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 
@@ -21,7 +22,10 @@ public class SecurityFilter implements ContainerRequestFilter {
         String token = requestContext.getHeaderString("X-AUTH");
         if (token != null && authTokenDao.isValid(token)) {
             User user = authTokenDao.getUserFor(token);
-            requestContext.setProperty("user", user); // TODO do not work in resteasy
+            SecurityContext securityContext = new SaveYourPassSecurityContext(
+                    user,
+                    requestContext.getUriInfo().getRequestUri().getScheme());
+            requestContext.setSecurityContext(securityContext);
         }
         requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }

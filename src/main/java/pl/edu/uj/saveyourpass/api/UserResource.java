@@ -1,5 +1,6 @@
 package pl.edu.uj.saveyourpass.api;
 
+import io.swagger.annotations.Api;
 import org.mindrot.jbcrypt.BCrypt;
 import pl.edu.uj.saveyourpass.Secured;
 import pl.edu.uj.saveyourpass.bo.*;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Path("user")
+@Api(value = "/users")
 public class UserResource {
     @Inject
     private UserDao userDao;

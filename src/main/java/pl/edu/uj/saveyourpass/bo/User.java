@@ -5,12 +5,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Principal {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -92,5 +93,10 @@ public class User {
 
     public void setKeys(Set<Key> keys) {
         this.keys = keys;
+    }
+
+    @Override
+    public String getName() {
+        return getUsername();
     }
 }
