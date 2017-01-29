@@ -17,6 +17,12 @@ public class Password {
     private User owner;
     @OneToMany(mappedBy = "password", fetch = FetchType.EAGER)
     private Set<EncryptedPassword> encryptedPasswords = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_password",
+            joinColumns = @JoinColumn(name = "password_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> sharedWith = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -48,5 +54,13 @@ public class Password {
 
     public void setEncryptedPasswords(Set<EncryptedPassword> encryptedPasswords) {
         this.encryptedPasswords = encryptedPasswords;
+    }
+
+    public Set<User> getSharedWith() {
+        return sharedWith;
+    }
+
+    public void setSharedWith(Set<User> sharedWith) {
+        this.sharedWith = sharedWith;
     }
 }
