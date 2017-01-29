@@ -26,7 +26,8 @@ public class SecurityFilter implements ContainerRequestFilter {
                     user,
                     requestContext.getUriInfo().getRequestUri().getScheme());
             requestContext.setSecurityContext(securityContext);
+        } else {
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }
-        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }
 }
