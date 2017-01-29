@@ -3,9 +3,11 @@ package pl.edu.uj.saveyourpass.api;
 import org.mindrot.jbcrypt.BCrypt;
 import pl.edu.uj.saveyourpass.Secured;
 import pl.edu.uj.saveyourpass.bo.AuthToken;
+import pl.edu.uj.saveyourpass.bo.Key;
 import pl.edu.uj.saveyourpass.bo.LoginData;
 import pl.edu.uj.saveyourpass.bo.User;
 import pl.edu.uj.saveyourpass.dao.AuthTokenDao;
+import pl.edu.uj.saveyourpass.dao.KeyDao;
 import pl.edu.uj.saveyourpass.dao.UserDao;
 
 import javax.inject.Inject;
@@ -20,7 +22,7 @@ public class UserResource {
     @Inject
     private AuthTokenDao authTokenDao;
     @Inject
-    private KeyResource keyResource;
+    private KeyDao keyDao;
 
     @POST
     @Path("/new")
@@ -61,9 +63,44 @@ public class UserResource {
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
+    @GET
     @Path("{username}/keys")
-    public KeyResource keys(@PathParam("username") String username) {
-        keyResource.setUsername(username);
-        return keyResource;
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllKeys(@PathParam("username") String username) {
+        User user = userDao.getByName(username);
+        return Response.ok(user.getKeys()).build();
+    }
+
+    @POST
+    @Path("{username}/keys/new")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response newKey(@PathParam("username") String username, Key key) {
+        User user = userDao.getByName(username);
+        key.setOwner(user);
+        keyDao.insert(key);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("{username}/keys/{keyname}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getKey(@PathParam("username") String username, @PathParam("keyname") String keyname) {
+        Optional<Key> key = keyDao.getByName(keyname);
+        if (key.isPresent()) {
+            return Response.ok(key.get()).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @GET
+    @Path("{username}/keys/{keyname}/passwords")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPasswords(@PathParam("username") String username, @PathParam("keyname") String keyname) {
+        Optional<Key> key = keyDao.getByName(keyname);
+        if (key.isPresent()) {
+            return Response.ok(key.get().getEncryptedPasswords()).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }
