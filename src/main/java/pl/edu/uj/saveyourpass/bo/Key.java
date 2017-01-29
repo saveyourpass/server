@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "keys")
 public class Key {
+    @JsonIgnore
     @Id
     @GeneratedValue
     @Column(name = "id")
