@@ -3,7 +3,9 @@ package pl.edu.uj.saveyourpass;
 import pl.edu.uj.saveyourpass.bo.User;
 import pl.edu.uj.saveyourpass.dao.AuthTokenDao;
 
+import javax.annotation.Priority;
 import javax.inject.Inject;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
@@ -13,6 +15,7 @@ import java.io.IOException;
 
 @Secured
 @Provider
+@Priority(Priorities.AUTHENTICATION)
 public class SecurityFilter implements ContainerRequestFilter {
     @Inject
     private AuthTokenDao authTokenDao;

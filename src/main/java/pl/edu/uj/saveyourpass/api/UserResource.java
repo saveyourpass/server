@@ -237,6 +237,18 @@ public class UserResource {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
+//    @OPTIONS
+//    @Path("{path : .*}")
+//    public Response options() {
+//        return Response.ok("")
+//                .header("Access-Control-Allow-Origin", "http://localhost:8081")
+//                .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-auth")
+//                .header("Access-Control-Allow-Credentials", "true")
+//                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+//                .header("Access-Control-Max-Age", "1209600")
+//                .build();
+//    }
+
 //    @POST
 //    @Path("{username}/passwords/{passwordname}/share/{sharewith}")
 //    @Consumes(MediaType.APPLICATION_JSON)

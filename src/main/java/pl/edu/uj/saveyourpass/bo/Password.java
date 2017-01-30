@@ -20,7 +20,8 @@ public class Password {
     @JsonIgnore
     @OneToMany(mappedBy = "password", fetch = FetchType.EAGER)
     private Set<EncryptedPassword> encryptedPasswords = new HashSet<>();
-    @ManyToMany(cascade = CascadeType.ALL)
+//    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_password",
             joinColumns = @JoinColumn(name = "password_id"),
