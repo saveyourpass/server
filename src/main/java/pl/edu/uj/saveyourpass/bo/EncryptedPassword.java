@@ -1,19 +1,23 @@
 package pl.edu.uj.saveyourpass.bo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "encrypted_passwords")
 public class EncryptedPassword {
+    @JsonIgnore
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Key key;
     @Column(name = "data")
     private String data;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Password password;
 
     public Integer getId() {
