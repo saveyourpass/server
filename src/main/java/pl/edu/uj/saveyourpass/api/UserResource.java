@@ -13,7 +13,7 @@ import javax.ws.rs.core.*;
 import java.util.Optional;
 
 @Path("user")
-@Api(value = "/users")
+@Api(value = "/user")
 public class UserResource {
     @Inject
     private UserDao userDao;
@@ -136,8 +136,9 @@ public class UserResource {
             if (key.isPresent()) {
                 return Response.ok(key.get().getEncryptedPasswords()).build();
             }
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     @GET
