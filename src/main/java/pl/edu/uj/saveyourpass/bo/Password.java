@@ -1,5 +1,7 @@
 package pl.edu.uj.saveyourpass.bo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +17,7 @@ public class Password {
     private String name;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User owner;
+    @JsonIgnore
     @OneToMany(mappedBy = "password", fetch = FetchType.EAGER)
     private Set<EncryptedPassword> encryptedPasswords = new HashSet<>();
     @ManyToMany(cascade = CascadeType.ALL)

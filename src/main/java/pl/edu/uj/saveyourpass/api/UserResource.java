@@ -11,10 +11,12 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Path("user")
 @Api(value = "/user")
 public class UserResource {
+    private static final Logger log = Logger.getLogger(UserResource.class.getSimpleName());
     @Inject
     private UserDao userDao;
     @Inject
