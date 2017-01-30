@@ -34,6 +34,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Register new user")
     public Response registerUser(User user, @Context UriInfo uriInfo) {
+        log.severe("User registered " + user.getUsername());
         userDao.add(user);
         UriBuilder builder = uriInfo.getAbsolutePathBuilder()
                 .path(user.getUsername());
@@ -138,7 +139,7 @@ public class UserResource {
             if (key.isPresent()) {
                 return Response.ok(key.get().getEncryptedPasswords()).build();
             }
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.ok(keyname + " " + user.get().getUsername()).build();
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
